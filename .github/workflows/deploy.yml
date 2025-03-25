@@ -1,0 +1,36 @@
+name: Deploy aeaiou Frontend
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      
+      - name: Add host key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+      
+      - name: Deploy to server
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SERVER_HOST: ${{ secrets.HOST }}
+        run: |
+          # Transfer frontend files to server
+          rsync -avz --exclude '.git' --exclude 'node_modules' ./ $SSH_USER@$SERVER_HOST:/var/www/aeaiou-api/aeaiou-frontend/
+          
+          # Restart Nginx to apply changes
+          ssh $SSH_USER@$SERVER_HOST "cd /var/www/aeaiou-api && docker-compose -f docker-compose.prod.yml restart nginx"
+          
+          echo "Deployment completed successfully!"
+          echo "Your updated site should now be accessible at https://aeaiou.com"
