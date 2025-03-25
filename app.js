@@ -86,8 +86,8 @@ async function generateImage() {
   // Prepare parameters
   const params = {
     prompt: promptInput.value.trim(),
-    style: styleSelect.value,
-    aspect_ratio: aspectRatioSelect.value,
+    model_type: styleSelect.value,
+    width_height_ratio: aspectRatioSelect.value,
   };
   
   // Show loading state
