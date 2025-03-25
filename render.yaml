@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: aeaiou-frontend
+    env: static
+    buildCommand: echo "Static site, no build needed"
+    staticPublishPath: .
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    envVars:
+      - key: API_URL
+        value: https://aeaiou-api.onrender.com/api/v1

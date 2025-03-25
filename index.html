@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>aeaiou - AI Image Generator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="logo">aeaiou<span class="accent">.</span></h1>
+      <p class="tagline">Create stunning AI-generated images in seconds</p>
+    </header>
+
+    <main>
+      <section class="image-generator">
+        <div class="prompt-container">
+          <h2>What would you like to create?</h2>
+          <div class="input-group">
+            <input type="text" id="prompt" placeholder="A majestic mountain landscape at sunset, digital art" />
+            <button id="generate-btn" class="primary-btn">Generate</button>
+          </div>
+          
+          <div class="options">
+            <div class="option-group">
+              <label for="style">Style:</label>
+              <select id="style">
+                <option value="realistic">Realistic</option>
+                <option value="digital-art" selected>Digital Art</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="anime">Anime</option>
+                <option value="sci-fi">Sci-Fi</option>
+                <option value="oil-painting">Oil Painting</option>
+              </select>
+            </div>
+            
+            <div class="option-group">
+              <label for="aspect-ratio">Aspect Ratio:</label>
+              <select id="aspect-ratio">
+                <option value="1:1" selected>Square (1:1)</option>
+                <option value="4:3">Landscape (4:3)</option>
+                <option value="3:4">Portrait (3:4)</option>
+                <option value="16:9">Widescreen (16:9)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="image-preview-container">
+          <div id="loading-indicator" class="hidden">
+            <div class="spinner"></div>
+            <p>Generating your masterpiece...</p>
+          </div>
+          
+          <div id="image-preview" class="empty">
+            <div class="placeholder-text">
+              <span class="icon">✨</span>
+              <p>Your creation will appear here</p>
+            </div>
+            <img id="generated-image" class="hidden" src="" alt="Generated image" />
+          </div>
+          
+          <div class="image-actions hidden" id="image-actions">
+            <button id="download-btn" class="action-btn">
+              <span class="icon">↓</span> Download
+            </button>
+            <button id="share-btn" class="action-btn">
+              <span class="icon">↗</span> Share
+            </button>
+            <button id="create-variation-btn" class="action-btn">
+              <span class="icon">↺</span> Create Variation
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <section class="gallery">
+        <h2>Inspiration Gallery</h2>
+        <p>Check out these amazing creations made with aeaiou</p>
+        
+        <div class="gallery-grid" id="gallery">
+          <!-- Gallery images will be inserted here by JavaScript -->
+        </div>
+      </section>
+    </main>
+    
+    <footer>
+      <div class="footer-content">
+        <div class="footer-logo">aeaiou<span class="accent">.</span></div>
+        <p>Powered by advanced AI image generation technology</p>
+        <div class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div class="copyright">© 2025 aeaiou. All rights reserved.</div>
+    </footer>
+  </div>
+  
+  <script src="app.js"></script>
+</body>
+</html>
