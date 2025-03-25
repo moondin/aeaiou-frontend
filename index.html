@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>aeaiou | AI Image Generator</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/theme.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
@@ -12,8 +13,11 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1 class="logo">aeaiou<span class="accent">.</span></h1>
+        <header class="header">
+            <div class="logo-container">
+                <img src="images/logo-new.svg" alt="AEAIOU Logo" class="logo-image">
+                <h1 class="logo-text">aeaiou</h1>
+            </div>
             <p class="tagline">Create stunning AI-generated images with ease</p>
             
             <!-- Auth Controls -->
@@ -26,8 +30,8 @@
                         <a href="#" id="logout-btn">Log Out</a>
                     </div>
                 </div>
-                <button class="auth-btn" id="login-btn">Log In</button>
-                <button class="auth-btn primary-btn" id="signup-btn">Sign Up</button>
+                <button class="btn secondary" id="login-btn">Log In</button>
+                <button class="btn primary" id="signup-btn">Sign Up</button>
             </div>
         </header>
 
@@ -175,7 +179,10 @@
         
         <footer>
             <div class="footer-content">
-                <div class="footer-logo">aeaiou<span class="accent">.</span></div>
+                <div class="logo-container">
+                    <img src="images/logo-new.svg" alt="AEAIOU Logo" class="logo-image" style="height: 40px;">
+                    <div class="footer-logo logo-text">aeaiou</div>
+                </div>
                 <p>Transforming your ideas into stunning visuals with AI</p>
                 <div class="footer-links">
                     <a href="#">About</a>
@@ -191,5 +198,6 @@
     </div>
 
     <script src="app.js"></script>
+    <script src="js/payment.js" type="module"></script>
 </body>
 </html>
