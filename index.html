@@ -15,7 +15,70 @@
         <header>
             <h1 class="logo">aeaiou<span class="accent">.</span></h1>
             <p class="tagline">Create stunning AI-generated images with ease</p>
+            
+            <!-- Auth Controls -->
+            <div class="auth-controls">
+                <div class="user-profile hidden" id="user-profile">
+                    <span id="username-display"></span>
+                    <div class="user-menu">
+                        <a href="#" id="my-gallery-link">My Gallery</a>
+                        <a href="#" id="account-settings-link">Account Settings</a>
+                        <a href="#" id="logout-btn">Log Out</a>
+                    </div>
+                </div>
+                <button class="auth-btn" id="login-btn">Log In</button>
+                <button class="auth-btn primary-btn" id="signup-btn">Sign Up</button>
+            </div>
         </header>
+
+        <!-- Auth Modal -->
+        <div class="modal" id="auth-modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                
+                <!-- Login Form -->
+                <div class="auth-form" id="login-form">
+                    <h2>Log In</h2>
+                    <form id="login-form-element">
+                        <div class="form-group">
+                            <label for="login-email">Email or Username</label>
+                            <input type="text" id="login-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" name="password" required>
+                        </div>
+                        <button type="submit" class="primary-btn">Log In</button>
+                    </form>
+                    <p class="form-switch">Don't have an account? <a href="#" id="switch-to-signup">Sign Up</a></p>
+                </div>
+                
+                <!-- Signup Form -->
+                <div class="auth-form hidden" id="signup-form">
+                    <h2>Create Account</h2>
+                    <form id="signup-form-element">
+                        <div class="form-group">
+                            <label for="signup-username">Username</label>
+                            <input type="text" id="signup-username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm">Confirm Password</label>
+                            <input type="password" id="signup-confirm" name="confirm-password" required>
+                        </div>
+                        <button type="submit" class="primary-btn">Sign Up</button>
+                    </form>
+                    <p class="form-switch">Already have an account? <a href="#" id="switch-to-login">Log In</a></p>
+                </div>
+            </div>
+        </div>
 
         <div class="image-generator">
             <div class="prompt-container">
@@ -77,6 +140,9 @@
                     <button class="action-btn" id="variations-btn">
                         <i class="fas fa-shuffle"></i> Variations
                     </button>
+                    <button class="action-btn" id="save-btn">
+                        <i class="fas fa-heart"></i> Save
+                    </button>
                 </div>
                 <div id="loading-indicator" class="hidden">
                     <div class="spinner"></div>
@@ -85,11 +151,25 @@
             </div>
         </div>
 
-        <div class="gallery">
+        <!-- Tabs for Galleries -->
+        <div class="gallery-tabs">
+            <button class="tab-btn active" data-tab="public">Public Gallery</button>
+            <button class="tab-btn" data-tab="personal" id="personal-gallery-tab">My Images</button>
+        </div>
+
+        <div class="gallery tab-content active" id="public-gallery">
             <h2>Explore Creations</h2>
             <p>Get inspired by recent generations from our community</p>
             <div class="gallery-grid" id="gallery">
                 <!-- Gallery items will be added by JavaScript -->
+            </div>
+        </div>
+
+        <div class="gallery tab-content" id="personal-gallery">
+            <h2>My Images</h2>
+            <p>Your personal collection of AI-generated images</p>
+            <div class="gallery-grid" id="personal-gallery-grid">
+                <!-- Personal gallery items will be added by JavaScript -->
             </div>
         </div>
         
