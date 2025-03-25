@@ -1,0 +1,46 @@
+name: Deploy to Production Server
+
+on:
+  push:
+    branches:
+      - main
+      - gh-pages
+  workflow_dispatch:  # Allows manual triggering from GitHub
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to server
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          DEPLOY_PATH: "/var/www/aeaiou-api/aeaiou-frontend"
+        run: |
+          # Add server to known hosts
+          mkdir -p ~/.ssh
+          ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+          
+          # Create backup on server
+          ssh $SSH_USER@$SERVER_IP "mkdir -p ${DEPLOY_PATH}_backup_$(date +%Y%m%d_%H%M%S) && cp -r $DEPLOY_PATH/* ${DEPLOY_PATH}_backup_$(date +%Y%m%d_%H%M%S)/"
+          
+          # Deploy files
+          rsync -avz --delete ./images/ $SSH_USER@$SERVER_IP:$DEPLOY_PATH/images/
+          rsync -avz --delete ./css/ $SSH_USER@$SERVER_IP:$DEPLOY_PATH/css/
+          rsync -avz ./index.html $SSH_USER@$SERVER_IP:$DEPLOY_PATH/
+          
+          # Set permissions
+          ssh $SSH_USER@$SERVER_IP "chmod -R 755 $DEPLOY_PATH && find $DEPLOY_PATH -type f -exec chmod 644 {} \\;"
+          
+          # Restart Nginx
+          ssh $SSH_USER@$SERVER_IP "cd /var/www/aeaiou-api && docker-compose -f docker-compose.prod.yml restart nginx"
+          
+          echo "Deployment completed successfully!"
