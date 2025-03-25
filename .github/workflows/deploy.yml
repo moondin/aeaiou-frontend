@@ -17,9 +17,11 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       
       - name: Add host key
+        env:
+          SERVER_HOST: ${{ secrets.HOST }}
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan ${{ env.SERVER_HOST }} >> ~/.ssh/known_hosts
       
       - name: Deploy to server
         env:
@@ -27,10 +29,10 @@ jobs:
           SERVER_HOST: ${{ secrets.HOST }}
         run: |
           # Transfer frontend files to server
-          rsync -avz --exclude '.git' --exclude 'node_modules' ./ $SSH_USER@$SERVER_HOST:/var/www/aeaiou-api/aeaiou-frontend/
+          rsync -avz --exclude '.git' --exclude 'node_modules' ./ ${{ env.SSH_USER }}@${{ env.SERVER_HOST }}:/var/www/aeaiou-api/aeaiou-frontend/
           
           # Restart Nginx to apply changes
-          ssh $SSH_USER@$SERVER_HOST "cd /var/www/aeaiou-api && docker-compose -f docker-compose.prod.yml restart nginx"
+          ssh ${{ env.SSH_USER }}@${{ env.SERVER_HOST }} "cd /var/www/aeaiou-api && docker-compose -f docker-compose.prod.yml restart nginx"
           
           echo "Deployment completed successfully!"
           echo "Your updated site should now be accessible at https://aeaiou.com"

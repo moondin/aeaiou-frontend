@@ -27,20 +27,20 @@ jobs:
         run: |
           # Add server to known hosts
           mkdir -p ~/.ssh
-          ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts
           
           # Create backup on server
-          ssh $SSH_USER@$SERVER_IP "mkdir -p ${DEPLOY_PATH}_backup_$(date +%Y%m%d_%H%M%S) && cp -r $DEPLOY_PATH/* ${DEPLOY_PATH}_backup_$(date +%Y%m%d_%H%M%S)/"
+          ssh ${{ env.SSH_USER }}@${{ env.SERVER_IP }} "mkdir -p ${{ env.DEPLOY_PATH }}_backup_$(date +%Y%m%d_%H%M%S) && cp -r ${{ env.DEPLOY_PATH }}/* ${{ env.DEPLOY_PATH }}_backup_$(date +%Y%m%d_%H%M%S)/"
           
           # Deploy files
-          rsync -avz --delete ./images/ $SSH_USER@$SERVER_IP:$DEPLOY_PATH/images/
-          rsync -avz --delete ./css/ $SSH_USER@$SERVER_IP:$DEPLOY_PATH/css/
-          rsync -avz ./index.html $SSH_USER@$SERVER_IP:$DEPLOY_PATH/
+          rsync -avz --delete ./images/ ${{ env.SSH_USER }}@${{ env.SERVER_IP }}:${{ env.DEPLOY_PATH }}/images/
+          rsync -avz --delete ./css/ ${{ env.SSH_USER }}@${{ env.SERVER_IP }}:${{ env.DEPLOY_PATH }}/css/
+          rsync -avz ./index.html ${{ env.SSH_USER }}@${{ env.SERVER_IP }}:${{ env.DEPLOY_PATH }}/
           
           # Set permissions
-          ssh $SSH_USER@$SERVER_IP "chmod -R 755 $DEPLOY_PATH && find $DEPLOY_PATH -type f -exec chmod 644 {} \\;"
+          ssh ${{ env.SSH_USER }}@${{ env.SERVER_IP }} "chmod -R 755 ${{ env.DEPLOY_PATH }} && find ${{ env.DEPLOY_PATH }} -type f -exec chmod 644 {} \;"
           
           # Restart Nginx
-          ssh $SSH_USER@$SERVER_IP "cd /var/www/aeaiou-api && docker-compose -f docker-compose.prod.yml restart nginx"
+          ssh ${{ env.SSH_USER }}@${{ env.SERVER_IP }} "cd /var/www/aeaiou-api && docker-compose -f docker-compose.prod.yml restart nginx"
           
           echo "Deployment completed successfully!"
