@@ -103,6 +103,8 @@ async function generateImage() {
       method: 'POST',
       headers: DEFAULT_HEADERS,
       body: JSON.stringify(params),
+      mode: 'cors', // Explicitly request CORS
+      credentials: 'omit' // Don't send cookies
     });
     
     const data = await response.json();
@@ -128,6 +130,8 @@ async function pollJobStatus(jobId) {
     const response = await fetch(`${API_BASE_URL}/status/${jobId}`, {
       method: 'GET',
       headers: DEFAULT_HEADERS,
+      mode: 'cors',
+      credentials: 'omit'
     });
     
     const data = await response.json();
